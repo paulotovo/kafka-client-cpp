@@ -1,34 +1,48 @@
-#include "producer.hpp"
+#include "producer.hpp" 
 #include <iostream>
-#include <chrono>     // Para manipular tempo
-#include <ctime>      // Para time_t e localtime
-#include <sstream>    // Para formatar a string
-#include <iomanip>    // Para put_time
-#include <string>     // Para manipulação de strings
+#include <chrono>
+#include <ctime>
+#include <sstream>
+#include <iomanip>
+#include <string>
 
-int main() {
-    mykafka::Producer producer("192.168.56.111:9092");
+int main(int argc, char* argv[]) {
+    // 1. Verificação de Argumentos
+    // Esperamos 4 argumentos: [Nome do Programa] [ip:porta] [topico] [mensagem]
+    if (argc != 4) {
+        std::cerr << "Erro: Numero incorreto de argumentos." << std::endl;
+        std::cerr << "Uso: " << argv[0] << " <ip:porta> <topico> <mensagem>" << std::endl;
+        std::cerr << "Exemplo: " << argv[0] << " 192.168.56.111:9092 meu-topico 'mensagem'" << std::endl;
+        return 1;
+    }
+
+    // 2. Extração de Parâmetros
+    const std::string brokers = argv[1];        // Endereço IP:Porta
+    const std::string topic = argv[2];          // Tópico
+    const std::string base_message = argv[3];   // Mensagem (Payload)
+
+    // 3. Inicializa o Producer
+    mykafka::Producer producer(brokers);
 
     // --- Geração do Timestamp ---
-    // Obtém o tempo atual do sistema
     auto now = std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
     
-    // Converte para uma estrutura de tempo local
     std::tm* local_tm = std::localtime(&now_time);
     
-    // Formata o timestamp como uma string (AAAA-MM-DD HH:MM:SS)
     std::ostringstream oss;
     oss << std::put_time(local_tm, "%Y-%m-%d %H:%M:%S");
     std::string timestamp_str = oss.str();
     
-    // 2. Concatena a Mensagem
-    std::string base_message = "Mensagem teste!";
+    // 4. Concatena a Mensagem Final
     std::string final_message = "[" + timestamp_str + "] " + base_message;
     
-    // Opcional: Imprime para debug
-    std::cout << "Enviando: " << final_message << std::endl;
+    // Opcional: Imprime o que será enviado
+    std::cout << "Conectando em: " << brokers << std::endl;
+    std::cout << "Enviando para o topico '" << topic << "': " << final_message << std::endl;
     
-    // 3. Envia a Mensagem com Timestamp
-    producer.send("test", final_message);
+    // 5. Envia a Mensagem com Timestamp
+    producer.send(topic, final_message);
+
+    return 0;
 }

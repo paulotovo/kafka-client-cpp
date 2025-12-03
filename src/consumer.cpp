@@ -68,9 +68,12 @@ public:
         if (!msg) return;
 
         if (msg->err == RD_KAFKA_RESP_ERR_NO_ERROR) {
-            // mensagem OK
+            // 1. EXTRAIR O NOME DO TÓPICO
+            std::string topic_name(rd_kafka_topic_name(msg->rkt)); // O rkt é o rd_kafka_topic_t*
+
+            // 2. PASSAR O NOME DO TÓPICO E A MENSAGEM PARA O CALLBACK
             if (callback) {
-                callback(std::string((char*)msg->payload, msg->len));
+                callback(topic_name, std::string((char*)msg->payload, msg->len));
             }
         } else if (msg->err != RD_KAFKA_RESP_ERR__PARTITION_EOF &&
                    msg->err != RD_KAFKA_RESP_ERR__TIMED_OUT) {
