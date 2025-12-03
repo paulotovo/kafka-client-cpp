@@ -126,7 +126,21 @@ mkdir build && cd build
 
 Configure com CMake:
 
-cmake ..
+cmake .. \
+-DRDKAFKA_ROOT=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install \
+-DRDKAFKA_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install/lib64/librdkafka.a \
+-DRDKAFKA_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install/include \
+-DLZ4_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/lz4/lib/liblz4.a \
+-DLZ4_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/lz4/lib \
+-DZSTD_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/zstd/_build/lib/libzstd.a \
+-DZSTD_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/zstd/include \
+-DZLIB_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/zlib/1.2.13/linux64/gcc-11.2.1/release/libzlib.a \
+-DZLIB_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/zlib/1.2.13/linux64/gcc-11.2.1/include \
+-DOPENSSL_SSL_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/openssl/3.0.16/linux64/gcc-11.2.1/release/libssl.a \
+-DOPENSSL_CRYPTO_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/openssl/3.0.16/linux64/gcc-11.2.1/release/libcrypto.a \
+-DOPENSSL_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/openssl/3.0.16/linux64/gcc-11.2.1/include \
+-DCURL_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/curl/release64/lib/libcurl.a \
+-DCURL_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/curl/release64/include 
 
 Execute os exemplos:
 
