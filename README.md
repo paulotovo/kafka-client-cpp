@@ -1,21 +1,21 @@
 # kafka_client_cpp
 C++ Kafka client for real-time message sending (producer) and receiving (consumer).
 
-meu-kafka-wrapper/
-- CMakeLists.txt
--- include
---- producer.hpp
---- consumer.hpp
--- src/
---- producer.cpp
---- consumer.cpp
--- examples
----- simple_producer.cpp
+meu-kafka-wrapper/ \
+- CMakeLists.txt \
+-- include \
+--- producer.hpp \
+--- consumer.hpp \
+-- src/ \
+--- producer.cpp \
+--- consumer.cpp \
+-- examples/ \
+---- simple_producer.cpp \
 ---- simple_consumer.cpp
 
 # Examples
 
-simple_producer: envia mensagens para meu-topico
+simple_producer: envia mensagens para meu-topico \
 simple_consumer: escuta mensagens de meu-topico
 
 # Pré-requisitos
@@ -130,6 +130,6 @@ cmake ..
 
 Execute os exemplos:
 
-./examples/simple_producer
+./examples/simple_producer \
 ./examples/simple_consumer
 
