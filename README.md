@@ -127,7 +127,6 @@ mkdir build && cd build
 Configure com CMake:
 
 cmake .. \
--DRDKAFKA_ROOT=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install \
 -DRDKAFKA_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install/lib64/librdkafka.a \
 -DRDKAFKA_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install/include \
 -DLZ4_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/lz4/lib/liblz4.a \
