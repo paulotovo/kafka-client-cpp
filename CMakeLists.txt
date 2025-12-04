@@ -8,8 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(include)
 
 # -------------------------------------------------------------------
-# 1) Caminhos das libs est·ticas que vocÍ gerou
-# ajuste conforme sua ·rvore de diretÛrios
+# 1) Caminhos das libs est√°ticas que voc√™ gerou
+# ajuste conforme sua √°rvore de diret√≥rios
 # -------------------------------------------------------------------
 set(RDKAFKA_ROOT "/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install")
 set(RDKAFKA_LIB   "${RDKAFKA_ROOT}/lib64/librdkafka.a")
@@ -28,7 +28,7 @@ set(OPENSSL_SSL_LIB   "/mnt/data/totvs/github/kafka-client-cpp/third_party/opens
 set(OPENSSL_CRYPTO_LIB "/mnt/data/totvs/github/kafka-client-cpp/third_party/openssl/3.0.16/linux64/gcc-11.2.1/release/libcrypto.a")
 set(OPENSSL_INCLUDE "/mnt/data/totvs/github/kafka-client-cpp/third_party/openssl/3.0.16/linux64/gcc-11.2.1/include")
 
-# libcurl (est·tica) que vocÍ compilou
+# libcurl (est√°tica) que voc√™ compilou
 set(CURL_LIB "/mnt/data/totvs/github/kafka-client-cpp/third_party/curl/release64/lib/libcurl.a")
 set(CURL_INCLUDE "/mnt/data/totvs/github/kafka-client-cpp/third_party/curl/release64/include")
 
@@ -36,7 +36,7 @@ set(CURL_INCLUDE "/mnt/data/totvs/github/kafka-client-cpp/third_party/curl/relea
 # set(LIBSSH2_LIB "/caminho/para/libssh2.a")
 # set(LIBSSH2_INCLUDE "/caminho/para/libssh2/include")
 
-# pthread, dl, m, rt s„o frequentemente necess·rios para link est·tico
+# pthread, dl, m, rt s√£o frequentemente necess√°rios para link est√°tico
 set(EXTRA_LIBS pthread dl m rt)
 
 # inclui headers do librdkafka
@@ -51,14 +51,14 @@ add_library(mykafka
 )
 
 # -------------------------------------------------------------------
-# 3) Ordem de link (IMPORTANTE para archives est·ticos):
+# 3) Ordem de link (IMPORTANTE para archives est√°ticos):
 #    - Primeiro a lib que seu wrapper usa diretamente (librdkafka.a)
 #    - Em seguida as libs das quais o librdkafka depende
 #    - Por fim libs do sistema (pthread, dl, m, rt)
 # -------------------------------------------------------------------
 target_link_libraries(mykafka PRIVATE
     ${RDKAFKA_LIB}
-    ${CURL_LIB}          # se vocÍ quer suporte HTTP/OAuth, sen„o remova
+    ${CURL_LIB}          # se voc√™ quer suporte HTTP/OAuth, sen√£o remova
     ${OPENSSL_SSL_LIB}
     ${OPENSSL_CRYPTO_LIB}
     ${ZSTD_LIB}
@@ -69,7 +69,7 @@ target_link_libraries(mykafka PRIVATE
 )
 
 # -------------------------------------------------------------------
-# 4) Execut·veis de exemplo
+# 4) Execut√°veis de exemplo
 # -------------------------------------------------------------------
 add_executable(simple_producer examples/simple_producer.cpp)
 target_link_libraries(simple_producer PRIVATE mykafka)

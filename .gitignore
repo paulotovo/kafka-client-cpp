@@ -37,3 +37,5 @@
 
 # debug information files
 *.dwo
+
+.vscode/

@@ -18,7 +18,7 @@ C++ Kafka client for real-time message sending (producer) and receiving (consume
 simple_producer: envia mensagens para meu-topico \
 simple_consumer: escuta mensagens de meu-topico
 
-# Pré-requisitos
+# PrÃ©-requisitos
 
 Linux
 
@@ -29,10 +29,10 @@ sudo apt install build-essential cmake librdkafka-dev
 
 # Third Party
 
-1. Pré Build (Dependencies)  
+1. PrÃ© Build (Dependencies)  
 
-1.1 Build OpenSSL3 static
-1.2 Build Zlib static
+1.1 Build OpenSSL3 static \
+1.2 Build Zlib static \
 1.3 Build Lz4 static
 ```bash
 git clone --branch v1.10.0 --depth 1 https://github.com/lz4/lz4.git
@@ -51,7 +51,7 @@ ls lib/libzstd.a
 ```
 1.5 Build cURL
 ```bash
-# Habilita o repositório CodeReady Builder
+# Habilita o repositÃ³rio CodeReady Builder
 sudo dnf config-manager --set-enabled ol8_codeready_builder
 
 # Tenta instalar o pacote libpsl-devel 

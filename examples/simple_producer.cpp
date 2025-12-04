@@ -7,7 +7,7 @@
 #include <string>
 
 int main(int argc, char* argv[]) {
-    // 1. Verificação de Argumentos
+    // 1. VerificaÃ§Ã£o de Argumentos
     // Esperamos 4 argumentos: [Nome do Programa] [ip:porta] [topico] [mensagem]
     if (argc != 4) {
         std::cerr << "Erro: Numero incorreto de argumentos." << std::endl;
@@ -16,15 +16,15 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // 2. Extração de Parâmetros
-    const std::string brokers = argv[1];        // Endereço IP:Porta
-    const std::string topic = argv[2];          // Tópico
+    // 2. ExtraÃ§Ã£o de ParÃ¢metros
+    const std::string brokers = argv[1];        // EndereÃ§o IP:Porta
+    const std::string topic = argv[2];          // TÃ³pico
     const std::string base_message = argv[3];   // Mensagem (Payload)
 
     // 3. Inicializa o Producer
     mykafka::Producer producer(brokers);
 
-    // --- Geração do Timestamp ---
+    // --- GeraÃ§Ã£o do Timestamp ---
     auto now = std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
     
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     // 4. Concatena a Mensagem Final
     std::string final_message = "[" + timestamp_str + "] " + base_message;
     
-    // Opcional: Imprime o que será enviado
+    // Opcional: Imprime o que serÃ¡ enviado
     std::cout << "Conectando em: " << brokers << std::endl;
     std::cout << "Enviando para o topico '" << topic << "': " << final_message << std::endl;
     

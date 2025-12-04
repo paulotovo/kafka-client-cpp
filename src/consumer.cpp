@@ -43,7 +43,7 @@ public:
         // registra consumer como consumidor
         rd_kafka_poll_set_consumer(rk);
 
-        // lista de tópicos
+        // lista de tÃ³picos
         topic_list = rd_kafka_topic_partition_list_new(topics.size());
         for (const auto& t : topics) {
             rd_kafka_topic_partition_list_add(topic_list, t.c_str(), RD_KAFKA_PARTITION_UA);
@@ -68,10 +68,10 @@ public:
         if (!msg) return;
 
         if (msg->err == RD_KAFKA_RESP_ERR_NO_ERROR) {
-            // 1. EXTRAIR O NOME DO TÓPICO
-            std::string topic_name(rd_kafka_topic_name(msg->rkt)); // O rkt é o rd_kafka_topic_t*
+            // 1. EXTRAIR O NOME DO TÃ“PICO
+            std::string topic_name(rd_kafka_topic_name(msg->rkt)); // O rkt Ã© o rd_kafka_topic_t*
 
-            // 2. PASSAR O NOME DO TÓPICO E A MENSAGEM PARA O CALLBACK
+            // 2. PASSAR O NOME DO TÃ“PICO E A MENSAGEM PARA O CALLBACK
             if (callback) {
                 callback(topic_name, std::string((char*)msg->payload, msg->len));
             }

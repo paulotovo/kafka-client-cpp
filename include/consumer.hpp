@@ -10,7 +10,7 @@ namespace mykafka {
 class Consumer {
 public:
     //using MessageCallback = std::function<void(const std::string& message)>;
-    // MUDANÇA AQUI: Adicionar 'const std::string& topic' ao callback
+    // MUDANÃ‡A AQUI: Adicionar 'const std::string& topic' ao callback
     using MessageCallback = std::function<void(const std::string& topic, const std::string& message)>;    
 
     Consumer(const std::string& brokers, const std::string& groupId, const std::vector<std::string>& topics);
