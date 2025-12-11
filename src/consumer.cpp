@@ -12,8 +12,11 @@ public:
     rd_kafka_topic_partition_list_t* topic_list;
 
     Impl(const std::string& brokers,
-         const std::string& groupId,
-         const std::vector<std::string>& topics)
+        const std::string& groupId,
+        const std::vector<std::string>& topics,
+        const std::string& ssl_ca,
+        const std::string& ssl_cert,
+        const std::string& ssl_key)
     {
         char errstr[512];
 
@@ -34,6 +37,22 @@ public:
         // auto offset reset
         rd_kafka_conf_set(conf, "auto.offset.reset", "earliest",
                           nullptr, 0);
+
+        // --- SSL / TLS ---
+        if (!ssl_ca.empty()) {
+            rd_kafka_conf_set(conf, "security.protocol", "SSL", nullptr, 0);
+            // Desabilitar a validação de hostname se você usou IP no certificado.
+            // Certificado do broker usa apenas o IP no CN/SAN e nao um hostname valido. 
+            rd_kafka_conf_set(conf, "ssl.endpoint.identification.algorithm", "none", nullptr, 0);
+            rd_kafka_conf_set(conf, "ssl.ca.location", ssl_ca.c_str(), nullptr, 0);
+        }
+        if (!ssl_cert.empty()) {
+            rd_kafka_conf_set(conf, "ssl.certificate.location", ssl_cert.c_str(), nullptr, 0);
+        }
+        if (!ssl_key.empty()) {
+            rd_kafka_conf_set(conf, "ssl.key.location", ssl_key.c_str(), nullptr, 0);
+        }
+        // ------------------
 
         // cria consumer
         rk = rd_kafka_new(RD_KAFKA_CONSUMER, conf, errstr, sizeof(errstr));
@@ -87,8 +106,12 @@ public:
 
 Consumer::Consumer(const std::string& brokers,
                    const std::string& groupId,
-                   const std::vector<std::string>& topics)
-    : impl_(std::make_unique<Impl>(brokers, groupId, topics))
+                   const std::vector<std::string>& topics,
+                   const std::string& ssl_ca,
+                   const std::string& ssl_cert,
+                   const std::string& ssl_key)
+    : impl_(std::make_unique<Impl>(brokers, groupId, topics,
+                                   ssl_ca, ssl_cert, ssl_key))
 {
 }
 

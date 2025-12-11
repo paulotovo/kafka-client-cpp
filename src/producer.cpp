@@ -10,16 +10,39 @@ public:
     rd_kafka_t* rk;
     rd_kafka_conf_t* conf;
 
-    Impl(const std::string& brokers) {
+    Impl(const std::string& brokers, const std::string& ssl_ca, const std::string& ssl_cert, const std::string& ssl_key) 
+    {
         char errstr[512];
 
         conf = rd_kafka_conf_new();
+
+        // bootstrap
         if (rd_kafka_conf_set(conf, "bootstrap.servers",
                               brokers.c_str(),
                               errstr, sizeof(errstr)) != RD_KAFKA_CONF_OK)
         {
             throw std::runtime_error(errstr);
         }
+
+        // --- SSL (somente se fornecido) ---
+        if (!ssl_ca.empty()) {
+            rd_kafka_conf_set(conf, "security.protocol", "SSL", nullptr, 0);
+            // Desabilitar a validação de hostname se você usou IP no certificado.
+            // Certificado do broker usa apenas o IP no CN/SAN e nao um hostname valido. 
+            rd_kafka_conf_set(conf, "ssl.endpoint.identification.algorithm", "none", nullptr, 0);            
+            rd_kafka_conf_set(conf, "ssl.ca.location", ssl_ca.c_str(), nullptr, 0);
+        }
+
+        if (!ssl_cert.empty()) {
+            rd_kafka_conf_set(conf, "ssl.certificate.location",
+                            ssl_cert.c_str(), nullptr, 0);
+        }
+
+        if (!ssl_key.empty()) {
+            rd_kafka_conf_set(conf, "ssl.key.location",
+                            ssl_key.c_str(), nullptr, 0);
+        }
+        // -----------------------------------        
 
         rk = rd_kafka_new(RD_KAFKA_PRODUCER, conf, errstr, sizeof(errstr));
         if (!rk) throw std::runtime_error(errstr);
@@ -66,8 +89,14 @@ public:
 
 // ---------- Producer ----------
 
-Producer::Producer(const std::string& brokers)
-    : impl_(std::make_unique<Impl>(brokers)) {}
+Producer::Producer(const std::string& brokers,
+                   const std::string& ssl_ca,
+                   const std::string& ssl_cert,
+                   const std::string& ssl_key)
+    : impl_(std::make_unique<Impl>(brokers, ssl_ca, ssl_cert, ssl_key)) 
+{
+    
+}
 
 Producer::~Producer() = default;
 
