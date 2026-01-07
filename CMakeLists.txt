@@ -4,6 +4,15 @@ project(meu_kafka_wrapper)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(ASYNC_MODE "Enable async Kafka producer" OFF)
+
+if (ASYNC_MODE)
+    message(STATUS "Building with ASYNC_MODE enabled")
+    add_compile_definitions(ASYNC_MODE)
+else()
+    message(STATUS "Building with synchronous producer")
+endif()
+
 # Inclui headers do wrapper
 include_directories(include)
 

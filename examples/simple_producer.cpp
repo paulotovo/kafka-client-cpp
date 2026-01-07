@@ -6,6 +6,10 @@
 #include <iomanip>
 #include <string>
 
+#ifndef ASYNC_MODE
+    #error "ASYNC_MODE NÃO DEFINIDO NO SIMPLE_PRODUCER!"
+#endif
+
 enum class SecurityMode {
     PLAINTEXT,
     TLS,
@@ -86,9 +90,32 @@ int main(int argc, char* argv[]) {
     } 
 
     std::cout << "Enviando para o topico '" << topic << "': " << final_message << std::endl;
-    
+
+#ifdef ASYNC_MODE
+    producer.send(topic, final_message,[](const mykafka::DeliveryReport& r) 
+    {
+        std::cout << "============================================" << std::endl;
+        std::cout << "CALLBACK EXECUTADO COM SUCESSO = " << (r.success ? "SIM" : "NAO") << std::endl;
+        std::cout << "============================================" << std::endl;        
+        if (r.success)
+        {
+            std::cout << "✔ Delivered | partition="
+                        << r.partition
+                        << " offset=" << r.offset << "\n";
+            std::cout << "Mensagem enviada\n";
+        }
+        else
+            std::cout << "✖ Error: "
+                        << r.error << "\n";
+    });
+
+    // esperar o callback ser executado pela thread de background.
+    // garante que os callbacks sejam executados enquanto o ambiente 
+    // da aplicação ainda está 100% íntegro e estável.
+    producer.flush(5000);   
+#else
     // 5. Envia a Mensagem com Timestamp
     producer.send(topic, final_message);
-
+#endif
     return 0;
 }

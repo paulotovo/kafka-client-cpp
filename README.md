@@ -126,6 +126,7 @@ mkdir build && cd build
 
 Configure com CMake:
 
+```bash
 cmake .. \
 -DRDKAFKA_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install/lib64/librdkafka.a \
 -DRDKAFKA_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/librdkafka/install/include \
@@ -140,6 +141,7 @@ cmake .. \
 -DOPENSSL_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/openssl/3.0.16/linux64/gcc-11.2.1/include \
 -DCURL_LIB=/mnt/data/totvs/github/kafka-client-cpp/third_party/curl/release64/lib/libcurl.a \
 -DCURL_INCLUDE=/mnt/data/totvs/github/kafka-client-cpp/third_party/curl/release64/include 
+```
 
 Execute os exemplos:
 
